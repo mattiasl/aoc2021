@@ -7,26 +7,24 @@
                    [cmd val])
                 (split (slurp "./src/main/clojure/day02.in") #"\n")))
 
-(defn exec-fn-part-1 [[cmd x]]
-  (cond
-    (= cmd "forward") [x 0]
-    (= cmd "down") [0 x]
-    :else [0 (- x)]))
+(defn exec-instruction-part-1 [[cmd x]]
+  (condp = cmd "forward" [x 0]
+               "down" [0 x]
+               "up" [0 (- x)]))
 
 (defn part-1 [commands]
-  (->> (map exec-fn-part-1 commands)
+  (->> (map exec-instruction-part-1 commands)
        (reduce #(map + %1 %2))
        (apply *)))
 
-(defn exec-fn-part-2 [cmd x aim]
-  (cond
-    (= cmd "forward") [x (* x aim) 0]
-    (= cmd "down") [0 0 x]
-    :else [0 0 (- x)]))
+(defn exec-instruction-part-2 [cmd x aim]
+  (condp = cmd "forward" [x (* x aim) 0]
+               "down" [0 0 x]
+               "up" [0 0 (- x)]))
 
 (defn part-2 [commands]
   (->> (reduce (fn [acc [command x]]
-                 (mapv + acc (exec-fn-part-2 command x (last acc))))
+                 (mapv + acc (exec-instruction-part-2 command x (last acc))))
                [0 0 0]
                commands)
        (drop-last)
