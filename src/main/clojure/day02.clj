@@ -24,7 +24,7 @@
 
 (defn part-2 [commands]
   (->> (reduce (fn [acc [command x]]
-                 (mapv + acc (exec-instruction-part-2 command x (last acc))))
+                 (map + acc (exec-instruction-part-2 command x (last acc))))
                [0 0 0]
                commands)
        (drop-last)
