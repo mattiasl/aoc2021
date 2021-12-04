@@ -5,7 +5,7 @@
 
 (defn to-decimal [bits] (Integer/parseInt bits 2))
 
-(defn to-int-list [report] (map #(if (= % \1) 1 0) (to-array report)))
+(defn to-int-list [report] (map #(if (= % \1) 1 0) report))
 
 (defn count-ones [reports]
   (reduce #(map + %1 %2)

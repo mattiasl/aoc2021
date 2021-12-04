@@ -11,7 +11,8 @@
   (apply map list x))
 
 (defn parse-row [row]
-  (map #(Integer/parseInt %) (split (trim row) #"[ ]+")))
+  (->> (split (trim row) #"\s+")
+       (map #(Integer/parseInt %))))
 
 (defn parse-board [board]
   (let [parsed-rows (map parse-row board)
@@ -19,21 +20,23 @@
     (concat parsed-rows parsed-cols)))
 
 (defn parse-boards [boards]
-  (->> (filter #(not= % '("")) (partition-by #(= % "") boards))
+  (->> (partition-by #(= % "") boards)
+       (filter #(not= % '("")))
        (map parse-board)))
 
 (defn update-board [number board]
-  (map (fn [col-or-row] (filter (fn [x] (not= number x)) col-or-row)) board))
+  (map (fn [col-or-row] (filter #(not= number %) col-or-row)) board))
 
 (defn bingo? [board]
-  (->> (map (fn [x] (= 0 (count x))) board)
+  (->> (map #(= 0 (count %)) board)
        (some true?)
        (boolean)))
 
 (defn score [number board]
-  (* number (->> (flatten board)
-                 (set)
-                 (apply +))))
+  (->> (flatten board)
+       (set)
+       (apply +)
+       (* number)))
 
 (defn part-1 [input]
   (loop [[number & xs] (parse-randoms (first input))
