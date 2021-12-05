@@ -28,7 +28,7 @@
   (map (fn [col-or-row] (filter #(not= number %) col-or-row)) board))
 
 (defn bingo? [board]
-  (->> (map #(= 0 (count %)) board)
+  (->> (map empty? board)
        (some true?)
        (boolean)))
 
