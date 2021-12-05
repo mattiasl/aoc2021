@@ -26,10 +26,8 @@
   (let [len (max (Math/abs (- x1 x2)) (Math/abs (- y1 y2)))
         [dx dy] (coords->gradient [[x1 y1] [x2 y2]])]
     (->> (for [r (range (inc len))]
-           (let [coords [(+ x1 (* dx r)) (+ y1 (* dy r))]
-                 new-val (inc (or (get diagram coords) 0))]
-             [coords new-val]))
-         (reduce (fn [a [k v]] (assoc a k v)) diagram))))
+           [(+ x1 (* dx r)) (+ y1 (* dy r))])
+         (reduce (fn [a c] (update a c #(if % (inc %) 1))) diagram))))
 
 (defn solver
   ([lines] (solver lines (constantly true)))
