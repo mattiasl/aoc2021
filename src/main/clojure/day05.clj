@@ -1,18 +1,16 @@
 (ns day05
   (:require [clojure.string :refer [split]]))
 
-(def input
-  (-> (slurp "./src/main/clojure/day05.in")
-      (split #"\n")))
+(def input (-> (slurp "./src/main/clojure/day05.in")
+               (split #"\n")))
 
 (defn line->coords [line]
   (let [parsed (rest (re-matches #"(\d+),(\d+) \-\> (\d+),(\d+)" line))
-        [x1 y1 x2 y2] (mapv #(Integer/parseInt %) parsed)]
+        [x1 y1 x2 y2] (map #(Integer/parseInt %) parsed)]
     [[x1 y1] [x2 y2]]))
 
 (defn not-diagonal? [[[x1 y1] [x2 y2]]]
-  (or (and (= x1 x2) (not= y1 y2))
-      (and (not= x1 x2) (= y1 y2))))
+  (or (= x1 x2) (= y1 y2)))
 
 (defn coords->gradient [[[x1 y1] [x2 y2]]]
   (cond (and (neg? (- x1 x2)) (neg? (- y1 y2))) [1 1]
