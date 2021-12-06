@@ -10,7 +10,7 @@
 
 (defn simulate-day [state]
   (let [hatched (first state)
-        new-state (conj (vec (rest state)) hatched)]
+        new-state (conj (subvec state 1) hatched)]
     (update new-state 6 + hatched)))
 
 (defn solver [input days]
