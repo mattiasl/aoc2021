@@ -5,7 +5,7 @@
                        cmd (first parts)
                        val (Integer/parseInt (second parts))]
                    [cmd val])
-                (split (slurp "./src/main/clojure/day02.in") #"\n")))
+                (split (slurp "./src/main/clojure/input/day02.in") #"\n")))
 
 (defn exec-instruction-part-1 [[cmd x]]
   (condp = cmd "forward" [x 0]

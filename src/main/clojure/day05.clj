@@ -1,7 +1,7 @@
 (ns day05
   (:require [clojure.string :refer [split]]))
 
-(def input (-> (slurp "./src/main/clojure/day05.in")
+(def input (-> (slurp "./src/main/clojure/input/day05.in")
                (split #"\n")))
 
 (defn line->coords [line]

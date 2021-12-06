@@ -1,7 +1,7 @@
 (ns day03
   (:require [clojure.string :refer [join split starts-with?]]))
 
-(def input (split (slurp "./src/main/clojure/day03.in") #"\n"))
+(def input (split (slurp "./src/main/clojure/input/day03.in") #"\n"))
 
 (defn to-decimal [bits] (Integer/parseInt bits 2))
 

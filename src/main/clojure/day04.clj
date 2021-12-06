@@ -1,7 +1,7 @@
 (ns day04
   (:require [clojure.string :refer [join split starts-with? trim]]))
 
-(def input (split (slurp "./src/main/clojure/day04.in") #"\n"))
+(def input (split (slurp "./src/main/clojure/input/day04.in") #"\n"))
 
 (defn parse-randoms [randoms]
   (->> (split randoms #",")

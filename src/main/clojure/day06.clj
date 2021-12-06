@@ -1,7 +1,7 @@
 (ns day06
   (:require [clojure.string :refer [split]]))
 
-(def input (map #(Integer/parseInt %) (split (slurp "./src/main/clojure/day06.in") #",")))
+(def input (map #(Integer/parseInt %) (split (slurp "./src/main/clojure/input/day06.in") #",")))
 
 (defn input->initial-state [input]
   (reduce (fn [a [k v]] (update a k + v))
