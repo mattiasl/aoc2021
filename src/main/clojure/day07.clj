@@ -3,7 +3,7 @@
 
 (def input (map #(Integer/parseInt %) (split (slurp "./src/main/clojure/input/day07.in") #",")))
 
-(defn fuel-cost-part-1 [a b]
+(defn fuel-cost-part-1 [^long a ^long b]
   (Math/abs (- a b)))
 
 (defn sum-n [n]
