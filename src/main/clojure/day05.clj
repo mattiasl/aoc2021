@@ -22,7 +22,7 @@
         (and (pos? (- x1 x2)) (= y1 y2)) [-1 0]
         (and (neg? (- x1 x2)) (= y1 y2)) [1 0]))
 
-(defn update-diagram [diagram [[x1 y1] [x2 y2]]]
+(defn update-diagram [diagram [[^int x1 ^int y1] [^int x2 ^int y2]]]
   (let [len (max (Math/abs (- x1 x2)) (Math/abs (- y1 y2)))
         [dx dy] (coords->gradient [[x1 y1] [x2 y2]])]
     (->> (for [r (range (inc len))]
@@ -39,6 +39,6 @@
                      (count))))
 
 ; part-1
-(solver input not-diagonal?)
+(time (solver input not-diagonal?))
 ; part-2
-(solver input)
+(time (solver input))
