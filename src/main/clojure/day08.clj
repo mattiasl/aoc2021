@@ -9,16 +9,16 @@
   (->> (map trim (split note #"\|"))
        (map #(split % #" "))))
 
-(defn one? [x _]
+(defn one? [x & _]
   (= (count x) 2))
 
-(defn four? [x _]
+(defn four? [x & _]
   (= (count x) 4))
 
-(defn seven? [x _]
+(defn seven? [x & _]
   (= (count x) 3))
 
-(defn eight? [x _]
+(defn eight? [x & _]
   (= (count x) 7))
 
 (defn six? [x state]
@@ -86,10 +86,10 @@
   (reduce (fn [a [_ output]]
             (->> output
                  (filter (fn [x]
-                           (or (one? x {})
-                               (four? x {})
-                               (seven? x {})
-                               (eight? x {}))))
+                           (or (one? x)
+                               (four? x)
+                               (seven? x)
+                               (eight? x))))
                  (count)
                  (+ a)))
           0
