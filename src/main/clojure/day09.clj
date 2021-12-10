@@ -67,8 +67,7 @@
         basins-fn (partial basins (count (get input 0)) (count input) heightmap)]
     (->> (low-points heightmap)
          (map #(count (basins-fn %)))
-         (sort)
-         (reverse)
+         (sort >)
          (take 3)
          (apply *))))
 
