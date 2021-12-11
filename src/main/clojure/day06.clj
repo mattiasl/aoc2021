@@ -19,6 +19,6 @@
         (apply + $)))
 
 ;part 1
-(solver input 80)
+(time (solver input 80))
 ;part 2
-(solver input 256)
+(time (solver input 256))
