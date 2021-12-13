@@ -1,6 +1,5 @@
 (ns day11
-  (:require [clojure.string :refer [split]]
-            [clojure.set :refer [difference union]]))
+  (:require [clojure.string :refer [split]]))
 
 (def input (-> (slurp "./src/main/clojure/input/day11.in")
                (split #"\n")))
