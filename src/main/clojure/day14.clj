@@ -22,14 +22,14 @@
         polymer (first input)
         first-and-last {(str (first polymer) (last polymer)) 1}]
     (->> (range steps)
-         (reduce (fn [polymer _] (step rules polymer))
+         (reduce (fn [state _] (step rules state))
                  (frequencies (map join (partition 2 1 polymer))))
          (merge-with + first-and-last)
          (reduce (fn [a [[x y] z]] (conj a {x z} {y z})) [])
          (apply merge-with +)
          (vals)
-         (map #(/ % 2))
          (apply (juxt max min))
+         (map #(/ % 2))
          (apply -))))
 
 (time (solver input 10))
