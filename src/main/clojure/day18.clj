@@ -22,29 +22,31 @@
   (let [left (quot n 2)]
     [left (+ left (mod n 2))]))
 
-(defn sfn-split [sfn split?]
-  (if (coll? sfn)
-    (let [[left right] sfn
-          left' (sfn-split left split?)
-          right' (sfn-split right split?)]
-      [left' right'])
-    (if (or (< sfn 10) @split?)
-      sfn
-      (do
-        (swap! split? (constantly true))
-        (rn-split sfn)))))
+(defn sfn-split
+  ([sfn] (sfn-split sfn (atom false)))
+  ([sfn split?]
+   (if (coll? sfn)
+     (let [[left right] sfn
+           left' (sfn-split left split?)
+           right' (sfn-split right split?)]
+       [left' right'])
+     (if (or (< sfn 10) @split?)
+       sfn
+       (do
+         (swap! split? (constantly true))
+         (rn-split sfn))))))
 
-(defn find-and-prepare-explosion
-  ([sfn exploded?] (find-and-prepare-explosion sfn exploded? 1))
+(defn find-and-prepare-explode
+  ([sfn exploded?] (find-and-prepare-explode sfn exploded? 0))
   ([sfn exploded? depth]
    (if (coll? sfn)
-     (let [[left right] (if (and (> depth 4) (nil? @exploded?))
+     (let [[left right] (if (and (= depth 4) (nil? @exploded?))
                           (do
                             (swap! exploded? (constantly sfn))
                             [nil nil])
                           sfn)
-           left' (find-and-prepare-explosion left exploded? (inc depth))
-           right' (find-and-prepare-explosion right exploded? (inc depth))]
+           left' (find-and-prepare-explode left exploded? (inc depth))
+           right' (find-and-prepare-explode right exploded? (inc depth))]
        [left' right'])
      sfn)))
 
@@ -54,7 +56,7 @@
 (defn add-to-first-number [right n]
   (clojure.string/replace-first right #"(\d+)" #(str (+ (Integer/parseInt (last %1)) n))))
 
-(defn perform-explosion [partially-exploded explosion]
+(defn do-explode [partially-exploded explosion]
   (let [partially-exploded-string (str partially-exploded)
         explosion-pos (index-of partially-exploded-string "[nil nil]")
         left (-> (subs partially-exploded-string 0 explosion-pos)
@@ -65,19 +67,18 @@
 
 (defn explode [sfn]
   (let [exploded? (atom nil)
-        partially-exploded (find-and-prepare-explosion sfn exploded?)]
+        partially-exploded (find-and-prepare-explode sfn exploded?)]
     (if (nil? @exploded?)
-      [sfn false]
-      [(perform-explosion partially-exploded @exploded?) true])))
+      sfn
+      (do-explode partially-exploded @exploded?))))
 
 (defn sfn-reduce [sfn]
   (loop [sfn sfn]
-    (let [[exploded-sfn exploded?] (explode sfn)]
-      (if exploded?
+    (let [exploded-sfn (explode sfn)]
+      (if (not= sfn exploded-sfn)
         (recur exploded-sfn)
-        (let [split? (atom false)
-              split-sfn (sfn-split sfn split?)]
-          (if @split?
+        (let [split-sfn (sfn-split sfn)]
+          (if (not= sfn split-sfn)
             (recur split-sfn)
             sfn))))))
 
